@@ -1,47 +1,36 @@
-import {View, FlatList, Text} from 'react-native';
-import ExpensesList from './ExpensesList';
-import ExpensesSummary from './ExpensesSummary';
+import { View, FlatList, Text, StyleSheet } from "react-native";
+import { GlobalStyles } from "../../constants/styles";
+import ExpensesList from "./ExpensesList";
+import ExpensesSummary from "./ExpensesSummary";
 
-const DUMMY_EXPENSES = [
-    {
-        id: 'e1',
-        description: 'A pair of shoes',
-        amount: 59.99,
-        date: new Date('2022-04-20')
-    },
-    {
-        id: 'e2',
-        description: 'A pair of trousers',
-        amount: 80.00,
-        date: new Date('2022-03-17')
-    },
-    {
-        id: 'e3',
-        description: 'Wrist watch',
-        amount: 22.99,
-        date: new Date('2022-04-6')
-    },
-    {
-        id: 'e4',
-        description: 'Book',
-        amount: 14.99,
-        date: new Date('2022-04-8')
-    },
-    {
-        id: 'e5',
-        description: 'Mouse',
-        amount: 6.25,
-        date: new Date('2022-04-02')
-    }
-]
+function ExpensesOutput({ expenses, expensesPeriod, fallbackText }) {
+  let content = <Text style={styles.infoText}>{fallbackText}</Text>;
 
-function ExpensesOutput({expenses, expensesPeriod}){
-    return(
-        <View>
-            <ExpensesSummary expenses={DUMMY_EXPENSES} periodName={expensesPeriod} />
-            <ExpensesList />
-        </View>
-    )
+  if(expenses.length > 0){
+      content = <ExpensesList expenses={expenses} />
+
+  }
+
+  return (
+    <View style={styles.container}>
+      <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
+      {content}
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: GlobalStyles.colors.primary700,
+  },
+  infoText: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 32,
+  },
+});
 
 export default ExpensesOutput;
